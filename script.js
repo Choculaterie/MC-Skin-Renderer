@@ -92,6 +92,11 @@ async function fetchSkinFromMojang(usernameOrUUID) {
         localStorage.setItem('currentSkin', skinUrl);
         localStorage.setItem('currentPlayerName', playerName);
 
+        // Update URL with player parameter
+        const url = new URL(window.location);
+        url.searchParams.set('player', playerName);
+        window.history.pushState({}, '', url);
+
         setStatus(`Loaded skin for <strong>${playerName}</strong>! Scroll to zoom and drag to orbit.`, false);
 
     } catch (error) {
@@ -134,24 +139,34 @@ async function initializeViewer() {
     viewer.fov = 50;
     viewer.zoom = 0.9;
 
-    // Load saved skin from localStorage
-    const savedSkin = localStorage.getItem('currentSkin');
-    if (savedSkin) {
-        try {
-            await viewer.loadSkin(savedSkin);
-            const savedPlayerName = localStorage.getItem('currentPlayerName');
-            if (savedPlayerName) {
-                setStatus(`Loaded saved skin for <strong>${savedPlayerName}</strong>! Scroll to zoom and drag to orbit.`, false);
-            } else {
-                setStatus("Loaded saved skin! Scroll to zoom and drag to orbit.", false);
-            }
-        } catch (error) {
-            setStatus("Ready! Upload a skin file or fetch one by username.", false);
-            localStorage.removeItem('currentSkin');
-            localStorage.removeItem('currentPlayerName');
-        }
+    // Check if there's a player parameter in the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const playerFromUrl = urlParams.get('player');
+
+    if (playerFromUrl) {
+        // If there's a player parameter, fetch that skin
+        playerSearchInput.value = playerFromUrl;
+        await fetchSkinFromMojang(playerFromUrl);
     } else {
-        setStatus("Ready! Upload a skin file or fetch one by username.", false);
+        // Load saved skin from localStorage
+        const savedSkin = localStorage.getItem('currentSkin');
+        if (savedSkin) {
+            try {
+                await viewer.loadSkin(savedSkin);
+                const savedPlayerName = localStorage.getItem('currentPlayerName');
+                if (savedPlayerName) {
+                    setStatus(`Loaded saved skin for <strong>${savedPlayerName}</strong>! Scroll to zoom and drag to orbit.`, false);
+                } else {
+                    setStatus("Loaded saved skin! Scroll to zoom and drag to orbit.", false);
+                }
+            } catch (error) {
+                setStatus("Ready! Upload a skin file or fetch one by username.", false);
+                localStorage.removeItem('currentSkin');
+                localStorage.removeItem('currentPlayerName');
+            }
+        } else {
+            setStatus("Ready! Upload a skin file or fetch one by username.", false);
+        }
     }
 }
 
@@ -184,6 +199,11 @@ function readSkinFile(file) {
             // Save to localStorage
             localStorage.setItem('currentSkin', skinData);
             localStorage.removeItem('currentPlayerName'); // Clear player name for uploaded files
+
+            // Remove player parameter from URL when uploading a file
+            const url = new URL(window.location);
+            url.searchParams.delete('player');
+            window.history.pushState({}, '', url);
 
             setStatus(
                 "Skin loaded! Scroll to zoom and drag the preview to orbit.",
