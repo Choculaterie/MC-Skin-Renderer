@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Minecraft Skin Renderer</title>
+    <link rel="icon" href="https://choculaterie.com/images/server_logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="skinview3d.bundle.js" defer></script>
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+    <main>
+        <header>
+            <h1>MC Skin Renderer</h1>
+            <p>Preview any Minecraft skin by dropping a PNG file right in your browser.</p>
+        </header>
+
+        <div class="content">
+            <section class="card">
+                <div class="canvas-container">
+                    <canvas id="skin-canvas" width="360" height="480" aria-label="Minecraft skin preview"></canvas>
+                    <input type="checkbox" id="animation-toggle" class="animation-toggle" checked
+                        title="Toggle Animation" />
+                </div>
+            </section>
+
+            <section class="card controls">
+                <div class="upload-field">
+                    <label for="skin-file">
+                        <span>📂 Choose a skin (.png)</span>
+                    </label>
+                    <input type="file" id="skin-file" accept="image/png" />
+                </div>
+
+                <div id="drop-zone" class="drop-zone" role="button" tabindex="0" aria-label="Drop a skin file here">
+                    Drag & Drop your skin file here
+                </div>
+
+                <div class="search-container">
+                    <input type="text" id="player-search" placeholder="Enter username or UUID" autocomplete="off"
+                        data-form-type="other" />
+                    <button id="fetch-skin-btn">🔍 Fetch Skin</button>
+                </div>
+
+                <p id="status" class="status">
+                    <strong>Tip:</strong> Use a standard 64×64 or 64×32 Minecraft skin PNG.
+                </p>
+
+                <div>
+                    <h3>Tips</h3>
+                    <ul class="tips-list">
+                        <li>Fetch any Minecraft player's skin by username or UUID.</li>
+                        <li>Upload your own skin PNG or drag & drop it.</li>
+                        <li>Scroll to zoom. Drag to orbit around your character.</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>Based on <a href="https://github.com/bs-community/skinview3d" target="_blank"
+                rel="noopener noreferrer">skinview3d</a></p>
+    </footer>
+</body>
+
+</html>

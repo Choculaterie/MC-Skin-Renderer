@@ -1,2 +1,1 @@
-# MC Skin Renderer
- 
+Using [Choculaterie](https://choculaterie.com/) Proxy for Mojang APIs and [skinview3d](https://github.com/bs-community/skinview3d)
