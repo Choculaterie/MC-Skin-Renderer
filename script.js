@@ -128,7 +128,7 @@ async function initializeViewer() {
     const animationEnabled = localStorage.getItem('animationEnabled') !== 'false';
     if (animationEnabled) {
         viewer.animation = new skinview3d.WalkingAnimation();
-        viewer.animation.speed = 1.2;
+        viewer.animation.speed = 0.5;
     }
 
     // Set toggle state from localStorage
