@@ -75,12 +75,15 @@ async function fetchSkinFromMojang(usernameOrUUID) {
         }
 
         const texturesJson = JSON.parse(atob(texturesProperty.value));
-        const skinUrl = texturesJson.textures.SKIN?.url;
+        let skinUrl = texturesJson.textures.SKIN?.url;
 
         if (!skinUrl) {
             setStatus("No skin found for this player.", true);
             return;
         }
+
+        // Ensure the URL uses HTTPS (Mojang API sometimes returns HTTP)
+        skinUrl = skinUrl.replace(/^http:\/\//i, 'https://');
 
         // Load the skin directly (textures.minecraft.net doesn't need CORS proxy)
         await viewer.loadSkin(skinUrl);
