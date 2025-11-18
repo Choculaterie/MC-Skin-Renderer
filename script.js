@@ -289,7 +289,7 @@ function wireEvents() {
         if (isEnabled) {
             // Enable animation
             viewer.animation = new skinview3d.WalkingAnimation();
-            viewer.animation.speed = 1.2;
+            viewer.animation.speed = 0.5;
         } else {
             // Disable animation
             viewer.animation = null;
